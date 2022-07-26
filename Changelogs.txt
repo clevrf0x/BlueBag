@@ -1,6 +1,0 @@
-* Added a Custom User Model
-* Created Custom Signup form
-* Added User Authentication
-* Added Admin Authentication
-
-
