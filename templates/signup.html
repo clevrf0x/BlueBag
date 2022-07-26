@@ -8,9 +8,20 @@
 	<div class="card mx-auto" style="max-width:520px; margin-top:40px;">
       <article class="card-body">
 		<header class="mb-4"><h4 class="card-title text-center">Sign up</h4></header>
-		{% for message in messages %}
-          <p id="messages" style="font-weight:700; color: green;" class="text-center">{{ message }}</p>
-          {% endfor %}
+					{% if messages %}
+            {% for message in messages %}
+              {% if message.tags == 'error' %}
+                <p id="messages" style="font-weight:600; color: red;" class="text-center">{{ message }}</p>
+
+              {% elif message.tags == 'warning' %}
+                <p id="messages" style="font-weight:600; color: #ffcc00;" class="text-center">{{ message }}</p>
+
+              {% elif message.tags == 'success' %}
+                <p id="messages" style="font-weight:600; color: green;" class="text-center">{{ message }}</p>
+
+              {% endif %}
+            {% endfor %}
+          {% endif %}
 		<form method="POST" action="{% url 'signup' %}">
 			{% csrf_token %}
 				<div class="form-row">

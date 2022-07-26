@@ -13,13 +13,13 @@
           {% if messages %}
             {% for message in messages %}
               {% if message.tags == 'error' %}
-                <p id="messages" style="font-weight:700; color: red;" class="text-center">{{ message }}</p>
+                <p id="messages" style="font-weight:600; color: red;" class="text-center">{{ message }}</p>
 
               {% elif message.tags == 'warning' %}
-                <p id="messages" style="font-weight:700; color: #ffcc00;" class="text-center">{{ message }}</p>
+                <p id="messages" style="font-weight:600; color: #ffcc00;" class="text-center">{{ message }}</p>
 
               {% elif message.tags == 'success' %}
-                <p id="messages" style="font-weight:700; color: green;" class="text-center">{{ message }}</p>
+                <p id="messages" style="font-weight:600; color: green;" class="text-center">{{ message }}</p>
 
               {% endif %}
             {% endfor %}

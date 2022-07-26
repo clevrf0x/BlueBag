@@ -31,11 +31,14 @@ def manager_login(request):
       
       user = authenticate(request, username=email, password=password)
       if user is not None:
-        login(request, user)
-        if request.user.is_superadmin:
-          return redirect('manager_dashboard')
+        if user.is_verified:
+          if user.is_superadmin:
+            login(request, user)
+            return redirect('manager_dashboard')
+          else:
+            messages.warning(request, 'You are logged in a non-staff account')
         else:
-          messages.error(request, 'You are logged in a non-staff account')
+          messages.warning(request, 'Your account is not verified. Please verify your account')
 
       else:
         messages.error(request, 'Email or Password is incorrect')
