@@ -35,7 +35,7 @@ def signin(request):
           login(request, user)
           return redirect('home')
         else:
-          messages.error(request, 'Account is not activated, Please activate your account to login')
+          messages.warning(request, 'Account is not activated, Please activate your account to login')
       
       else:
         messages.error(request, 'Email or Password is incorrect')
@@ -77,7 +77,7 @@ def signup(request):
         send_email.send()
         
         messages.success(request, "We send a verification email, Please confirm your email address")
-        return redirect('signup')
+        return redirect('signin')
         
     else:    
       form = SignupForm()
@@ -102,7 +102,7 @@ def activate(request, uidb64, token):
     user.is_verified = True
     user.save()
     messages.success(request, "Congratulations! Your account is now activated")
-    return redirect('signup')
+    return redirect('signin')
   else:
     messages.error(request, "Invalid Activation link!!!")
-    return redirect('signup')
+    return redirect('signin')

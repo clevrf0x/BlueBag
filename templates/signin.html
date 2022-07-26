@@ -10,9 +10,21 @@
       <h4 class="card-title mb-4 text-center">Sign in</h4>
 
         {% comment %} Error messages {% endcomment %}
-          {% for message in messages %}
-          <p id="messages" style="font-weight:700; color: red;" class="text-center">{{ message }}</p>
-          {% endfor %}
+          {% if messages %}
+            {% for message in messages %}
+              {% if message.tags == 'error' %}
+                <p id="messages" style="font-weight:700; color: red;" class="text-center">{{ message }}</p>
+
+              {% elif message.tags == 'warning' %}
+                <p id="messages" style="font-weight:700; color: #ffcc00;" class="text-center">{{ message }}</p>
+
+              {% elif message.tags == 'success' %}
+                <p id="messages" style="font-weight:700; color: green;" class="text-center">{{ message }}</p>
+
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+
 
       <form method="POST" action="{% url 'signin' %}"> 
         {% csrf_token %}
