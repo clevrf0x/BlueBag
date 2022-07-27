@@ -5,7 +5,7 @@ from store.models import Product
 
 @never_cache
 def home(request):
-  products = Product.objects.all().filter(is_available=True, is_featured=True)
+  products = Product.objects.filter(is_available=True, is_featured=True)
   
   context = { 'products': products }
   return render(request, 'index.html', context)
