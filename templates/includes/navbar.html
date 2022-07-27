@@ -1,82 +1,86 @@
 {% load static %}
 
 <header class="section-header">
+  <section class="header-main border-bottom">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-2 col-md-3 col-6">
+          <a href="/" class="brand-wrap logo-txt">
+            <!-- <img class="logo" src="{% static './images/logo.png' %}"> -->
+            <h1 style="font-family: 'Permanent Marker', cursive; color: #3167eb">Blue <span style="color: #4d4d4d">Bag</span></h1>
+          </a>
+          <!-- brand-wrap.// -->
+        </div>
+        <div class="col-lg col-sm col-md col-6 flex-grow-0">
+          <div class="category-wrap dropdown d-inline-block float-right">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i> All category</button>
+            <div class="dropdown-menu">
+              {% for category in links %}
+              <a class="dropdown-item" href="/store/{{ category.slug }}">{{ category.name }} </a>
+              {% endfor %}
+            </div>
+          </div>
+          <!-- category-wrap.// -->
+        </div>
+        <!-- col.// -->
+        <a href="{% url 'store_home' %}" class="btn btn-outline-primary">Store</a>
+        <div class="col-lg col-md-6 col-sm-12 col">
+          <form action="#" class="search">
+            <div class="input-group w-100">
+              <input type="text" class="form-control" style="width: 60%" placeholder="Search" />
 
-<section class="header-main border-bottom">
-	<div class="container">
-<div class="row align-items-center">
-	<div class="col-lg-2 col-md-3 col-6">
-		<a href="/" class="brand-wrap logo-txt">
-		  <!-- <img class="logo" src="{% static './images/logo.png' %}"> -->	
-      <h1 style="font-family: 'Permanent Marker', cursive; color: #3167eb">Blue <span style="color: #4d4d4d">Bag</span></h1>
-		</a> <!-- brand-wrap.// -->
-	</div>
-	<div class="col-lg col-sm col-md col-6 flex-grow-0">
-		<div class="category-wrap dropdown d-inline-block float-right">
-			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> 
-				<i class="fa fa-bars"></i> All category 
-			</button>
-			<div class="dropdown-menu">
-				{% for category in links %}
-					<a class="dropdown-item" href="/store/{{ category.slug }}">{{ category.name }} </a>
-				{% endfor %}
-			</div>
-		</div>  <!-- category-wrap.// -->
-	</div> <!-- col.// -->
-	<a href="{% url 'store_home' %}" class="btn btn-outline-primary">Store</a>
-	<div class="col-lg  col-md-6 col-sm-12 col">
-		<form action="#" class="search">
-			<div class="input-group w-100">
-			    <input type="text" class="form-control" style="width:60%;" placeholder="Search">
-			    
-			    <div class="input-group-append">
-			      <button class="btn btn-primary" type="submit">
-			        <i class="fa fa-search"></i>
-			      </button>
-			    </div>
-		    </div>
-		</form> <!-- search-wrap .end// -->
-	</div> <!-- col.// -->
-	<div class="col-lg-3 col-sm-6 col-8 order-2 order-lg-3">
-				<div class="d-flex justify-content-end mb-3 mb-lg-0">
-					{% if request.user.is_superadmin %}
-					<div class="widget-header">
-						<small class="title text-muted">Welcome <span style="font-size: 12px !important; font-weight:700; text-transform: capitalize;">{{ request.user.username }}</span></small>
-						<div> 
-							<a href="/manager/dashboard">Dashboard</a> <span class="dark-transp"> | </span>
-							<a href="/manager/logout"> Sign out</a>
-						</div>
-					</div>
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+          <!-- search-wrap .end// -->
+        </div>
+        <!-- col.// -->
+        <div class="col-lg-3 col-sm-6 col-8 order-2 order-lg-3">
+          <div class="d-flex justify-content-end mb-3 mb-lg-0">
+            {% if request.user.is_superadmin %}
+            <div class="widget-header">
+              <small class="title text-muted">Welcome <span style="font-size: 12px !important; font-weight: 700; text-transform: capitalize">{{ request.user.username }}</span></small>
+              <div>
+                <a href="/manager/dashboard">Dashboard</a> <span class="dark-transp"> | </span>
+                <a href="/manager/logout"> Sign out</a>
+              </div>
+            </div>
 
-					{% elif request.user.is_authenticated %}
-					<div class="widget-header">
-						<small class="title text-muted">Welcome <span style="font-size: 12px !important; font-weight:700; text-transform: capitalize;">{{ request.user.username }}</span></small>
-						<div> 
-							<a href="/accounts/dashboard">Dashboard</a> <span class="dark-transp"> | </span>
-							<a href="/accounts/logout"> Sign out</a>
-						</div>
-					</div>
+            {% elif request.user.is_authenticated %}
+            <div class="widget-header">
+              <small class="title text-muted">Welcome <span style="font-size: 12px !important; font-weight: 700; text-transform: capitalize">{{ request.user.username }}</span></small>
+              <div>
+                <a href="/accounts/dashboard">Dashboard</a> <span class="dark-transp"> | </span>
+                <a href="/accounts/logout"> Sign out</a>
+              </div>
+            </div>
 
-					{% else %}
-					<div class="widget-header">
-						<small class="title text-muted">Welcome <span style="font-size: 12px !important; font-weight:700; text-transform: capitalize;">guest </span></small>
-						<div> 
-							<a href="/accounts/signin">Sign in</a> <span class="dark-transp"> | </span>
-							<a href="/accounts/signup"> Sign up</a>
-						</div>
-					</div>
-					{% endif %}
-					<a href="/cart.html" class="widget-header pl-3 ml-3">
-						<div class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></div>
-						<span class="badge badge-pill badge-danger notify">0</span>
-					</a>
-				</div> <!-- widgets-wrap.// -->
-			</div> <!-- col.// -->
-</div> <!-- row.// -->
-	</div> <!-- container.// -->
-</section> <!-- header-main .// -->
-
-
-
-
-</header> <!-- section-header.// -->
+            {% else %}
+            <div class="widget-header">
+              <small class="title text-muted">Welcome <span style="font-size: 12px !important; font-weight: 700; text-transform: capitalize">guest </span></small>
+              <div>
+                <a href="/accounts/signin">Sign in</a> <span class="dark-transp"> | </span>
+                <a href="/accounts/signup"> Sign up</a>
+              </div>
+            </div>
+            {% endif %}
+            <a href="/cart.html" class="widget-header pl-3 ml-3">
+              <div class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></div>
+              <span class="badge badge-pill badge-danger notify">0</span>
+            </a>
+          </div>
+          <!-- widgets-wrap.// -->
+        </div>
+        <!-- col.// -->
+      </div>
+      <!-- row.// -->
+    </div>
+    <!-- container.// -->
+  </section>
+  <!-- header-main .// -->
+</header>
+<!-- section-header.// -->

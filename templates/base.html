@@ -1,69 +1,59 @@
 {% load static %}
 
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="pragma" content="no-cache" />
-<meta http-equiv="cache-control" content="max-age=604800" />
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="cache-control" content="max-age=604800" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-<title>Blue Bag | Online Shopping Platform</title>
+    <title>Blue Bag | Online Shopping Platform</title>
 
-<link href="{% static 'images/favicon.ico' %}" rel="shortcut icon" type="image/x-icon">
+    <link href="{% static 'images/favicon.ico' %}" rel="shortcut icon" type="image/x-icon" />
 
-<!-- Custom Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet" />
 
-<!-- jQuery -->
-<script src="{% static 'js/jquery-2.0.0.min.js' %}" type="text/javascript"></script>
+    <!-- jQuery -->
+    <script src="{% static 'js/jquery-2.0.0.min.js' %}" type="text/javascript"></script>
 
-<!-- Bootstrap4 files-->
-<script src="{% static 'js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
-<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- Bootstrap4 files-->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" />
 
-<!-- Font awesome 5 -->
-<link href="{% static 'fonts/fontawesome/css/all.min.css' %}" type="text/css" rel="stylesheet">
+    <!-- Font awesome 5 -->
+    <link href="{% static 'fonts/fontawesome/css/all.min.css' %}" type="text/css" rel="stylesheet" />
 
-<!-- custom style -->
-<link href="{% static 'css/ui.css' %}" rel="stylesheet" type="text/css"/>
-<link href="{% static 'css/responsive.css' %}" rel="stylesheet" media="only screen and (max-width: 1200px)" />
+    <!-- custom style -->
+    <link href="{% static 'css/ui.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/responsive.css' %}" rel="stylesheet" media="only screen and (max-width: 1200px)" />
 
-<!-- custom javascript -->
-<script src="{% static 'js/script.js' %}" type="text/javascript"></script>
+    <!-- custom javascript -->
+    <script src="{% static 'js/script.js' %}" type="text/javascript"></script>
 
-<script type="text/javascript">
-/// some script
+    <script type="text/javascript">
+      /// some script
 
-// jquery ready start
-$(document).ready(function() {
-	// jQuery code
+      // jquery ready start
+      $(document).ready(function () {
+        // jQuery code
+      });
+      // jquery end
+    </script>
 
-}); 
-// jquery end
-</script>
+    <!-- Custom Styling -->
+    <style></style>
+  </head>
+  <body>
+    <!-- NavBar -->
+    {% include 'includes/navbar.html' %} {% block content %}
+    <!-- Content -->
+    {% endblock %}
 
-<!-- Custom Styling -->
-<style>
-
-</style>
-
-</head>
-<body>
-
-  
-<!-- NavBar -->
-{% include 'includes/navbar.html' %}
-
-{% block content %}
-<!-- Content -->
-{% endblock %}
-
-<!-- Footer -->
-{% include 'includes/footer.html' %}
-
-
-</body>
+    <!-- Footer -->
+    {% include 'includes/footer.html' %}
+  </body>
 </html>
