@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
     'manager.apps.ManagerConfig',
-    'categories.apps.CategoriesConfig'
+    'categories.apps.CategoriesConfig',
+    'store.apps.StoreConfig'
 ]
 
 MIDDLEWARE = [
@@ -130,6 +131,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     'BlueBag/static',
 ]
+
+# Media Files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR /'media'
 
 # SMTP Config
 EMAIL_HOST = 'smtp.gmail.com'
