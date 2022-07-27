@@ -10,6 +10,7 @@ class Product(models.Model):
   images = models.ImageField(upload_to="photos/products")
   stock = models.IntegerField()
   is_available = models.BooleanField(default=True)
+  is_featured = models.BooleanField(default=False)
   category = models.ForeignKey(Category, on_delete=models.CASCADE)
   
   created_date = models.DateTimeField(auto_now_add=True)

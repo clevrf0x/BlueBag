@@ -3,7 +3,7 @@ from .models import Product
 
 # Register your models here.
 class ProductAdmin(admin.ModelAdmin):
-  list_display = ('name', 'slug', 'category', 'price', 'stock', 'is_available', 'created_date', 'modified_date')
+  list_display = ('name', 'slug', 'category', 'price', 'stock', 'is_available', 'is_featured', 'created_date', 'modified_date')
   prepopulated_fields =  {'slug': ('name',)}
   
 admin.site.register(Product, ProductAdmin)
