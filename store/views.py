@@ -2,6 +2,9 @@ from django.shortcuts import render, get_object_or_404
 from .models import Product
 from categories.models import Category
 
+from cart.views import _get_cart_id
+from cart.models import CartItem
+
 # Create your views here.
 
 def store_home(request, category_slug=None):
@@ -24,8 +27,12 @@ def store_home(request, category_slug=None):
 def product_details(request, category_slug, product_slug):
   try:
     product = Product.objects.get(category__slug=category_slug, slug=product_slug)
+    in_cart = CartItem.objects.filter(cart__cart_id=_get_cart_id(request), product=product).exists()
   except Exception as e:
     raise e
   
-  context = { 'product': product }
+  context = {
+    'product': product,
+    'in_cart': in_cart
+  }
   return render(request, 'store/product_details.html', context)

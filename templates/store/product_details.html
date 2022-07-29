@@ -49,13 +49,13 @@
             </div>
             <!-- row.// -->
             <hr />
-            {% if product.is_available %} {% if product.stock > 0 %}
-            <a href="#" class="btn btn-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i> </a>
+            {% if product.is_available %} {% if product.stock > 0 %} {% if in_cart %}
+            <a href="{% url 'cart' %}" class="btn btn-outline-primary"> <span class="text">View in cart</span> <i class="fas fa-eye"></i> </a>
             {% else %}
-            <a href="#" class="btn btn-danger disabled"> <span class="text">Out of stock</span></a>
+            <a href="{% url 'add_cart' product.id %}" class="btn btn-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i> </a>
             {% endif %} {% else %}
             <a href="#" class="btn btn-danger disabled"> <span class="text">Out of stock</span></a>
-            {% endif %}
+            {% endif %} {% endif %}
           </article>
           <!-- product-info-aside .// -->
         </main>
