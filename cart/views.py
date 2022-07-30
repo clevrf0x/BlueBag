@@ -68,11 +68,11 @@ def delete_cart(request, product_id):
 def cart(request, total=0, quantity=0, cart_items=None):
   try:
     cart = Cart.objects.get(cart_id=_get_cart_id(request))
-    cart_items = CartItem.objects.filter(cart=cart, is_active=True)
+    cart_items = CartItem.objects.filter(cart=cart, is_active=True).order_by('product')
     
     for cart_item in cart_items:
       total += (cart_item.product.price * cart_item.quantity)
-      quantity += cart_item.quantity
+      # quantity += cart_item.quantity
     
     tax = (5 * total) / 100
     grand_total = total + tax
@@ -82,7 +82,7 @@ def cart(request, total=0, quantity=0, cart_items=None):
   
   context = {
     'total': total,
-    'quantity': quantity,
+    # 'quantity': quantity,
     'cart_items': cart_items,
     'tax': tax,
     'grand_total': grand_total,
