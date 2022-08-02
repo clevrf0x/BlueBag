@@ -1,9 +1,15 @@
 {% extends 'base.html' %} {% block content %}
 <!-- ========================= SECTION PAGETOP ========================= -->
 <section class="section-pagetop bg">
+  {% if 'search' in request.path %}
+  <div class="container">
+    <h2 class="title-page">Search Result</h2>
+  </div>
+  {% else %}
   <div class="container">
     <h2 class="title-page">Our Store</h2>
   </div>
+  {% endif %}
   <!-- container //  -->
 </section>
 <!-- ========================= SECTION INTRO END// ========================= -->
@@ -25,7 +31,7 @@
               <div class="card-body" style="padding-top: 0 !important">
                 <ul class="list-menu">
                   {% for category in links %}
-                  <li><a href="/store/{{ category.slug }}">{{ category.name }}</a></li>
+                  <li><a href="/store/category/{{ category.slug }}">{{ category.name }}</a></li>
                   {% endfor %}
                 </ul>
               </div>
