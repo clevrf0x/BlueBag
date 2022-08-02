@@ -4,6 +4,8 @@ from categories.models import Category
 
 from django.db.models import Q
 
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+
 from cart.views import _get_cart_id
 from cart.models import CartItem
 
@@ -12,15 +14,21 @@ from cart.models import CartItem
 def store_home(request, category_slug=None):
   if category_slug is not None:
     category = get_object_or_404(Category, slug=category_slug)
-    products = Product.objects.filter(category=category, is_available=True)
+    products = Product.objects.filter(category=category, is_available=True).order_by('-created_date')
+    paginator = Paginator(products, 6)
+    page = request.GET.get('page')
+    paged_products = paginator.get_page(page)
     count = products.count()
   
   else:
-    products = Product.objects.filter(is_available=True)
+    products = Product.objects.filter(is_available=True).order_by('-created_date')
+    paginator = Paginator(products, 6)
+    page = request.GET.get('page')
+    paged_products = paginator.get_page(page)
     count = products.count()
   
   context = {
-    'products': products,
+    'products': paged_products,
     'count': count,
     }
   return render(request, 'store/store.html', context)
