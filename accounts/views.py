@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import logout, login, authenticate
 from django.contrib import messages
 from django.views.decorators.cache import never_cache
+import requests
 
 from .models import Accounts
 from .forms import SignupForm
@@ -75,7 +76,18 @@ def signin(request):
             pass
           
           login(request, user)
-          return redirect('home')
+          url = request.META.get('HTTP_REFERER')
+          
+          try:
+            query = requests.utils.urlparse(url).query
+            params = dict(x.split('=') for x in query.split('&'))
+            if 'next' in params:
+              next_page = params['next']
+              return redirect(next_page)
+            
+          except:
+            return redirect('home')
+    
         else:
           messages.warning(request, 'Account is not activated, Please activate your account to login')
       

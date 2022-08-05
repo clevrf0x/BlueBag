@@ -218,8 +218,12 @@ def checkout(request, total=0, quantity=0, cart_items=None):
   tax = 0
   grand_total = 0
   try:
-    cart = Cart.objects.get(cart_id=_get_cart_id(request))
-    cart_items = CartItem.objects.filter(cart=cart, is_active=True).order_by('product')
+    if request.user.is_authenticated:
+      cart_items = CartItem.objects.filter(user=request.user, is_active=True).order_by('product')
+    
+    else:
+      cart = Cart.objects.get(cart_id=_get_cart_id(request))
+      cart_items = CartItem.objects.filter(cart=cart, is_active=True).order_by('product')
     
     for cart_item in cart_items:
       total += (cart_item.product.price * cart_item.quantity)
