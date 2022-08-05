@@ -6,6 +6,9 @@ from django.views.decorators.cache import never_cache
 from .models import Accounts
 from .forms import SignupForm
 
+from cart.models import Cart, CartItem
+from cart.views import _get_cart_id
+
 # User Verification
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
@@ -32,6 +35,45 @@ def signin(request):
       user = authenticate(request, username=email, password=password)
       if user is not None:
         if user.is_verified:
+          
+          try:
+            cart = Cart.objects.get(cart_id=_get_cart_id(request)) 
+            is_cart_item_exists = CartItem.objects.filter(cart=cart).exists()
+            if is_cart_item_exists:
+              cart_item = CartItem.objects.filter(cart=cart)
+              
+              # Get product variation by cart id
+              product_variation = []
+              for item in cart_item:
+                variation = item.variations.all()
+                product_variation.append(list(variation))
+              
+              # Get cart item from user to access product variation
+              cart_item = CartItem.objects.filter(user=user)
+              existing_variations_list = []
+              id = []
+              for item in cart_item:
+                existing_variations = item.variations.all()
+                existing_variations_list.append(list(existing_variations))
+                id.append(item.id)
+              
+              for variation in product_variation:
+                if variation in existing_variations_list:
+                  index = existing_variations_list.index(variation)
+                  item_id = id[index]
+                  item = CartItem.objects.get(id=item_id)
+                  item.quantity += 1
+                  item.user = user
+                  item.save()
+
+                else:
+                  cart_item = CartItem.objects.filter(cart=cart)
+                  for item in cart_item:
+                    item.user = user
+                    item.save()
+          except:
+            pass
+          
           login(request, user)
           return redirect('home')
         else:
