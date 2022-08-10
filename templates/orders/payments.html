@@ -95,7 +95,38 @@
             <p class="text-center mb-3">
               <img src="{% static './images/misc/payments.png' %}" height="26" />
             </p>
-            <a href="{% url 'payment' %}" class="btn btn-primary btn-block" id="pay-btn"> Make Payment </a>
+             <!-- <form action="{% url 'payment' %}" method="post">
+              <button value="initialized" name='payment-initial' class="btn btn-primary btn-block" id="pay-btn"> Make Payment </a>
+            </form> -->
+
+            <!-- RazorPay Section -->
+            {% if payment %}
+            <form action="{% url 'payment_status' %}" method="POST">
+                <script
+                src="https://checkout.razorpay.com/v1/checkout.js"
+                data-key="{{razorpay_merchant_key}}"
+                data-amount="{{ payment.amount }}"
+                data-currency="INR"
+                data-order_id="{{ payment.id }}"
+                data-buttontext="Make Payment"
+                data-name=""
+                data-description="product"
+                data-image=""
+                data-prefill.name="{{ order.full_name }}"
+                data-prefill.email="{{user.email}}"
+                data-theme.color="#3167eb"
+            ></script>
+            <input type="hidden" custom="Hidden Element" name="hidden">
+            </form>
+            {% endif %}
+
+            <!-- add style to payment button -->
+            <script>
+              var element = document.querySelector('.razorpay-payment-button');
+              element.className += ' btn btn-primary btn-block';
+            </script>
+
+<!-- RazorPay Section End -->
           </div>
           <!-- card-body.// -->
         </div>

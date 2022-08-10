@@ -7,9 +7,11 @@ from store.models import Product, Variation
 class Payment(models.Model):
   user = models.ForeignKey(Accounts, on_delete=models.CASCADE)
   payment_id = models.CharField(max_length=100)
-  payment_method = models.CharField(max_length=100)
+  order_id = models.CharField(max_length=130,blank=True)
+  order_number = models.CharField(max_length=50, blank=True)
+  payment_method = models.CharField(max_length=100, default='RazorPay')
   amount_paid = models.CharField(max_length=100)
-  status = models.CharField(max_length=100)
+  status = models.BooleanField(default=False)
   created_at = models.DateTimeField(auto_now_add=True)
   
   def __str__(self):
