@@ -54,7 +54,7 @@
             <div class="widget-header">
               <small class="title text-muted">Welcome <span style="font-size: 12px !important; font-weight: 700; text-transform: capitalize">{{ request.user.username }}</span></small>
               <div>
-                <a href="/accounts/dashboard">Dashboard</a> <span class="dark-transp"> | </span>
+                <a href="{% url 'user_dashboard' %}">Dashboard</a> <span class="dark-transp"> | </span>
                 <a href="/accounts/logout"> Sign out</a>
               </div>
             </div>

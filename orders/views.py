@@ -73,7 +73,7 @@ def payment_status(request):
       return redirect('payment_success')
     
     except Exception as e:
-      raise e
+      # raise e
       transaction = Payment.objects.get(order_id=response['razorpay_order_id'])
       transaction.delete()
       return redirect('payment_fail')
@@ -87,6 +87,11 @@ def payment_success(request):
   
   try:
     order = Order.objects.get(order_number=order_number, is_ordered=True)
+    
+    # Change order status to Accepted when order is success
+    order.status = 'Accepted'
+    order.save()
+    
     ordered_products = OrderProduct.objects.filter(order_id=order.id)
     
     tax = 0
