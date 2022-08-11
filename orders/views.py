@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 
 from cart.models import CartItem
+from store.models import Product
 from .models import Payment, OrderProduct, Order
 
 from .forms import OrderForm, Order
@@ -17,7 +18,6 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def payment_status(request):
     response = request.POST
-    print(response)
     params_dict = {
         'razorpay_order_id': response['razorpay_order_id'],
         'razorpay_payment_id': response['razorpay_payment_id'],
@@ -43,10 +43,37 @@ def payment_status(request):
       order.payment = transaction
       order.is_ordered = True
       order.save()
+      
+      cart_items = CartItem.objects.filter(user=order.user)
+      for item in cart_items:
+        order_product = OrderProduct()
+        order_product.order_id = order.id
+        order_product.payment = transaction
+        order_product.user_id = order.user.id
+        order_product.product_id = item.product_id
+        order_product.quantity = item.quantity 
+        order_product.product_price = item.product.price
+        order_product.ordered = True
+        order_product.save()
         
+        # Reducing Stock
+        product = Product.objects.get(id=item.product_id)
+        product.stock -= item.quantity
+        product.save()
+        
+        #  Clearing Cart Items
+        cart_item = CartItem.objects.get(id=item.id)
+        product_variation = cart_item.variations.all()
+        order_product = OrderProduct.objects.get(id=order_product.id)
+        order_product.variation.set(product_variation)
+        order_product.save()
+      
+      CartItem.objects.filter(user=order.user).delete()
+      
       return redirect('payment_success')
     
-    except:
+    except Exception as e:
+      raise e
       transaction = Payment.objects.get(order_id=response['razorpay_order_id'])
       transaction.delete()
       return redirect('payment_fail')
@@ -55,7 +82,37 @@ def payment_status(request):
 
 
 def payment_success(request):
-  return render(request, 'orders/success.html')
+  order_number = request.session['order_number']
+  transaction_id = Payment.objects.get(order_number=order_number)
+  
+  try:
+    order = Order.objects.get(order_number=order_number, is_ordered=True)
+    ordered_products = OrderProduct.objects.filter(order_id=order.id)
+    
+    tax = 0
+    total = 0
+    grand_total = 0
+    
+    for item in ordered_products:
+      total += (item.product_price * item.quantity)
+      
+    tax = total / 100
+    grand_total = total + tax
+    
+    context = {
+      'order': order,
+      'ordered_products': ordered_products,
+      'transaction_id': transaction_id,
+      
+      'total': total,
+      'tax': tax,
+      'grand_total': grand_total
+    }
+    
+    return render(request, 'orders/success.html', context)
+  
+  except Exception as e:
+    raise e
 
 def payment_fail(request):
   return render(request, 'orders/fail.html')

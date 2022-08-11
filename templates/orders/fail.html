@@ -1,3 +1,10 @@
 {% extends 'base.html' %} {% block content %}
-<h1 class="text-center">Payment Failed</h1>
+<div class="container" style="margin-top: 50px">
+  <center><i class="fas fa-times-circle" style="font-size: 72px; margin-bottom: 20px; color: #c21010"></i></center>
+  <h2 class="text-center">Payment Failed</h2>
+  <br />
+  <div class="text-center">
+    <a href="{% url 'cart' %}" class="btn btn-danger mb-3" style="background-color: #c21010">Try again</a>
+  </div>
+</div>
 {% endblock content %}
