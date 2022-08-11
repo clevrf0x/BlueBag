@@ -40,7 +40,9 @@
                 {% else %} <span class="text-info font-weight-bold">{{ order.status }}</span> {% endif %}
               </td>
               <td>
-                {% if order.status != 'Cancelled' %}
+                {% if order.status == 'Accepted' %}
+                <a href="{% url 'cancel_order' order.order_number %}" class="btn btn-danger">Cancel</a>
+                {% elif order.status == 'Pending' %}
                 <a href="{% url 'cancel_order' order.order_number %}" class="btn btn-danger">Cancel</a>
                 {% endif %}
               </td>
