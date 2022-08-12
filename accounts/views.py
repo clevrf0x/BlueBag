@@ -1,3 +1,4 @@
+from genericpath import exists
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout, login, authenticate
 from django.contrib import messages
@@ -5,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.hashers import check_password, make_password
 import requests
+
+from django.core.exceptions import ObjectDoesNotExist
 
 from orders.models import Order, OrderProduct, Payment
 
@@ -120,6 +123,65 @@ def change_password(request):
       messages.error(request, 'Passwords does not match')
   
   return render(request, 'accounts/change_password.html')
+
+
+def forgot_password(request):
+  if request.method == 'POST':
+    email = request.POST['email']
+    try:
+      user = Accounts.objects.get(email=email, is_active=True)
+      
+      # USER ACTIVATION
+      current_site = get_current_site(request)
+      mail_subject = "Reset Password"
+      message = render_to_string('accounts/forgot_password_email.html', {
+        'user': user,
+        'domain': current_site,
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': default_token_generator.make_token(user),
+      })
+      to_mail = email
+      send_email = EmailMessage(mail_subject, message, to=[to_mail])
+      send_email.send()
+      
+      messages.success(request, 'Reset link has been sended to your verified email address')
+    except ObjectDoesNotExist:
+      messages.error(request, 'Account not found')
+  
+  return render(request, 'accounts/forgot_password.html')
+
+
+@never_cache
+def reset(request, uidb64, token):
+  if request.method == 'POST':
+    try:
+      uid = urlsafe_base64_decode(uidb64).decode()
+      user = Accounts._default_manager.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, Accounts.DoesNotExist):
+      user = None
+      
+    if user is not None and default_token_generator.check_token(user, token):
+      password = request.POST['password']
+      confirm_password = request.POST['confirm_password']
+      
+      if password == confirm_password:
+        hashed_password = make_password(password)
+        user.password = hashed_password
+        user.save()
+        messages.success(request, 'Password changed successfully')
+        return redirect('signin')
+      else:
+        messages.error(request, 'Passwords does not match')
+        
+    else:
+      messages.error(request, "Invalid Reset link!!!")
+      return redirect('forgot_password')
+
+  context = {
+    'uidb64': uidb64,
+    'token': token
+  }  
+  return render(request, 'accounts/reset_password.html', context)
 
 ### Sign in Function
 @never_cache
