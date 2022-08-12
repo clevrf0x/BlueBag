@@ -41,7 +41,7 @@ def user_dashboard(request):
       'total_orders': total_orders
     }
     
-    return render(request, 'user_dashboard.html', context)
+    return render(request, 'accounts/user_dashboard.html', context)
   
   except Exception as e:
     raise e
@@ -53,7 +53,7 @@ def my_order(request):
   context = {
     'orders': orders,
   }
-  return render(request, 'my_orders.html', context)
+  return render(request, 'accounts/my_orders.html', context)
 
 @login_required(login_url='signin')
 def cancel_order(request, order_number):
@@ -254,7 +254,7 @@ def signin(request):
       else:
         messages.error(request, 'Email or Password is incorrect')
       
-    return render(request, 'signin.html')
+    return render(request, 'accounts/signin.html')
 
 
 ### Sign Up Function
@@ -280,7 +280,7 @@ def signup(request):
         # USER ACTIVATION
         current_site = get_current_site(request)
         mail_subject = "Please activate your account"
-        message = render_to_string('email_verification.html', {
+        message = render_to_string('accounts/email_verification.html', {
           'user': user,
           'domain': current_site,
           'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -297,7 +297,7 @@ def signup(request):
       form = SignupForm()
       
     context = {'form': form}
-    return render(request, 'signup.html', context)
+    return render(request, 'accounts/signup.html', context)
 
 @never_cache
 def logout_user(request):
