@@ -1,37 +1,42 @@
 {% extends 'base.html' %} {% block content %}
 <!-- ========================= SECTION CONTENT ========================= -->
-<section class="section-conten padding-y bg">
+<section class="section-content padding-y bg">
   <div class="container">
+    <h1 class="text-center h2 mb-4">Manage Orders</h1>
     <div class="row">
       <aside class="col-md-3">
         <!--   SIDEBAR   -->
         <ul class="list-group">
-          <a class="list-group-item" href="{% url 'user_dashboard' %}"> Dashboard </a>
-          <a class="list-group-item active" href="{% url 'my_orders' %}"> My Orders </a>
+          <a class="list-group-item" href="{% url 'manager_dashboard' %}"> Dashboard </a>
+          <a class="list-group-item" href="{% url 'manage_user' %}"> User Management </a>
+          <a class="list-group-item" href=""> Product Management </a>
+          <a class="list-group-item" href="{% url 'manage_category' %}"> Category Management </a>
+          <a class="list-group-item active" href="{% url 'manage_order' %}"> Order Management </a>
         </ul>
         <br />
-        <a class="btn btn-light btn-block" href="{% url 'logout' %}"> <i class="fa fa-power-off"></i> <span class="text">Log out</span> </a>
+        <a class="btn btn-light btn-block" href="{% url 'manager_logout' %}"> <i class="fa fa-power-off"></i> <span class="text">Log out</span> </a>
         <!--   SIDEBAR .//END   -->
       </aside>
       <main class="col-md-9">
         <table class="table table-borderless">
           <thead>
             <tr>
-              <th scope="col">Order #</th>
+              <th scope="col">Order Number</th>
+              <th scope="col">User</th>
               <th scope="col">Billing Name</th>
-              <th scope="col">Phone Number</th>
-              <th scope="col">Order Total</th>
-              <th scope="col">Order Status</th>
-              <th scope="col">Order Cancel</th>
+              <th scope="col">Total</th>
+              <th scope="col">Status</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
             {% for order in orders %}
             <tr>
               <th scope="row"><a href="{% url 'view_order' order.order_number %}">{{ order.order_number }}</a></th>
+              <td>{{ order.user }}</td>
               <td>{{ order.full_name }}</td>
-              <td>{{ order.phone_number }}</td>
-              <td>₹ {{ order.order_total }}</td>
+              <td>{{ order.order_total }}</td>
               <td>
                 {% if order.status == 'Cancelled' %}
                 <span class="text-danger font-weight-bold">{{ order.status }}</span>
@@ -43,10 +48,15 @@
                 {% endif %}
               </td>
               <td>
-                {% if order.status == 'Accepted' %}
-                <a href="{% url 'cancel_order' order.order_number %}" class="btn btn-danger btn-sm">Cancel</a>
-                {% elif order.status == 'Pending' %}
-                <a href="{% url 'cancel_order' order.order_number %}" class="btn btn-danger btn-sm">Cancel</a>
+                {% if order.status == 'Pending' %}
+                <a href="{% url 'accept_order' order.order_number %}" class="btn btn-sm btn-info">Accept</a>
+                {% elif order.status == 'Accepted' %}
+                <a href="{% url 'complete_order' order.order_number %}" class="btn btn-sm btn-success">Complete</a>
+                {% endif %}
+              </td>
+              <td>
+                {% if order.status == 'Pending' or order.status == 'Accepted' %}
+                <a href="{% url 'cancel_order' order.order_number %}" class="btn btn-sm btn-danger">Cancel</a>
                 {% endif %}
               </td>
             </tr>

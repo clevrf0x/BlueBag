@@ -36,11 +36,15 @@
                     <li><strong>Transaction: </strong> #{{ transaction_id }}</li>
                     <li><strong>Order Date: </strong> {{ order.created_at }}</li>
                     <li>
-                      <strong>Status:</strong> {% if order.status == 'Cancelled' %}
+                      <strong>Status:</strong>
+                      {% if order.status == 'Cancelled' %}
                       <span class="text-danger font-weight-bold">{{ order.status }}</span>
                       {% elif order.status == 'Completed' %}
                       <span class="text-success font-weight-bold">{{ order.status }}</span>
-                      {% else %} <span class="text-info font-weight-bold">{{ order.status }}</span> {% endif %}
+                      {% elif order.status == 'Pending' %}
+                      <span class="text-muted font-weight-bold">{{ order.status }}</span>
+                      {% else %} <span class="text-info font-weight-bold">{{ order.status }}</span>
+                      {% endif %}
                     </li>
                   </ul>
                 </div>

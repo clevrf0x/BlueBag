@@ -11,7 +11,7 @@
           <a class="list-group-item" href="{% url 'manage_user' %}"> User Management </a>
           <a class="list-group-item" href=""> Product Management </a>
           <a class="list-group-item active" href="{% url 'manage_category' %}"> Category Management </a>
-          <a class="list-group-item" href=""> Order Management </a>
+          <a class="list-group-item" href="{% url 'manage_order' %}"> Order Management </a>
         </ul>
         <br />
         <a class="btn btn-light btn-block" href="{% url 'manager_logout' %}"> <i class="fa fa-power-off"></i> <span class="text">Log out</span> </a>

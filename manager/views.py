@@ -33,6 +33,51 @@ def manager_dashboard(request):
     return redirect('home')
   
   
+
+# Manage Order
+@never_cache
+@login_required(login_url='manager_login')
+def manage_order(request):
+  orders = Order.objects.filter(is_ordered=True).order_by('-order_number')
+  
+  context = {
+    'orders': orders
+  }
+  return render(request, 'manager/order_management.html', context)
+
+
+# Cancel Order
+@never_cache
+@login_required(login_url='manager_login')
+def cancel_order(request, order_number):
+  order = Order.objects.get(order_number=order_number)
+  order.status = 'Cancelled'
+  order.save()
+  
+  return redirect('manage_order')
+  
+
+# Accept Order
+@never_cache
+@login_required(login_url='manager_login')
+def accept_order(request, order_number):
+  order = Order.objects.get(order_number=order_number)
+  order.status = 'Accepted'
+  order.save()
+  
+  return redirect('manage_order')
+
+# Complete Order
+@never_cache
+@login_required(login_url='manager_login')
+def complete_order(request, order_number):
+  order = Order.objects.get(order_number=order_number)
+  order.status = 'Completed'
+  order.save()
+  
+  return redirect('manage_order')
+  
+  
 # Manage Category
 @never_cache
 @login_required(login_url='manager_login')
