@@ -9,7 +9,7 @@
         <ul class="list-group">
           <a class="list-group-item" href="{% url 'manager_dashboard' %}"> Dashboard </a>
           <a class="list-group-item" href="{% url 'manage_user' %}"> User Management </a>
-          <a class="list-group-item" href=""> Product Management </a>
+          <a class="list-group-item" href="{% url 'manage_product' %}"> Product Management </a>
           <a class="list-group-item active" href="{% url 'manage_category' %}"> Category Management </a>
           <a class="list-group-item" href="{% url 'manage_order' %}"> Order Management </a>
         </ul>
@@ -18,6 +18,9 @@
         <!--   SIDEBAR .//END   -->
       </aside>
       <main class="col-md-9">
+        <div class="d-flex justify-content-end">
+          <a href="{% url 'add_category' %}" class="btn btn-success mr-md-0">Add</a>
+        </div>
         <table class="table table-borderless">
           <thead>
             <tr>
@@ -26,7 +29,6 @@
               <th scope="col">Category Slug</th>
               <th scope="col">Update</th>
               <th scope="col">Delete</th>
-              <th scope="col"><a href="{% url 'add_category' %}" class="btn btn-success">Add</a></th>
             </tr>
           </thead>
           <tbody>

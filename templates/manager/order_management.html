@@ -9,7 +9,7 @@
         <ul class="list-group">
           <a class="list-group-item" href="{% url 'manager_dashboard' %}"> Dashboard </a>
           <a class="list-group-item" href="{% url 'manage_user' %}"> User Management </a>
-          <a class="list-group-item" href=""> Product Management </a>
+          <a class="list-group-item" href="{% url 'manage_product' %}"> Product Management </a>
           <a class="list-group-item" href="{% url 'manage_category' %}"> Category Management </a>
           <a class="list-group-item active" href="{% url 'manage_order' %}"> Order Management </a>
         </ul>

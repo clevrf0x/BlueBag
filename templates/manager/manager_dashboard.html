@@ -9,7 +9,7 @@
         <ul class="list-group">
           <a class="list-group-item active" href="{% url 'manager_dashboard' %}"> Dashboard </a>
           <a class="list-group-item" href="{% url 'manage_user' %}"> User Management </a>
-          <a class="list-group-item" href=""> Product Management </a>
+          <a class="list-group-item" href="{% url 'manage_product' %}"> Product Management </a>
           <a class="list-group-item" href="{% url 'manage_category' %}"> Category Management </a>
           <a class="list-group-item" href="{% url 'manage_order' %}"> Order Management </a>
         </ul>
@@ -33,7 +33,7 @@
               <div class="card-body">
                 <h5 class="card-title">Total Products</h5>
                 <p class="card-title h4 mb-3">{{ product_count }}</p>
-                <a href="" class="btn btn-outline-primary">View Products</a>
+                <a href="{% url 'manage_product' %}" class="btn btn-outline-primary">View Products</a>
               </div>
             </div>
           </div>

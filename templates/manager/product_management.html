@@ -1,15 +1,15 @@
 {% extends 'base.html' %} {% block content %}
 <!-- ========================= SECTION CONTENT ========================= -->
-<section class="section-conten padding-y bg">
+<section class="section-content padding-y bg">
   <div class="container">
-    <h1 class="text-center h2 mb-4">Manage Users</h1>
+    <h1 class="text-center h2 mb-4">Manage Products</h1>
     <div class="row">
       <aside class="col-md-3">
         <!--   SIDEBAR   -->
         <ul class="list-group">
           <a class="list-group-item" href="{% url 'manager_dashboard' %}"> Dashboard </a>
-          <a class="list-group-item active" href="{% url 'manage_user' %}"> User Management </a>
-          <a class="list-group-item" href="{% url 'manage_product' %}"> Product Management </a>
+          <a class="list-group-item" href="{% url 'manage_user' %}"> User Management </a>
+          <a class="list-group-item active" href="{% url 'manage_product' %}"> Product Management </a>
           <a class="list-group-item" href="{% url 'manage_category' %}"> Category Management </a>
           <a class="list-group-item" href="{% url 'manage_order' %}"> Order Management </a>
         </ul>
@@ -18,48 +18,45 @@
         <!--   SIDEBAR .//END   -->
       </aside>
       <main class="col-md-9">
+        <div class="d-flex justify-content-end">
+          <a href="{% url 'add_product' %}" class="btn btn-success mr-md-4">Add Products</a>
+        </div>
         <table class="table table-borderless">
           <thead>
-            <tr class="mb-4">
+            <tr>
               <th scope="col">ID</th>
               <th scope="col">Name</th>
-              <th scope="col">Username</th>
-              <th scope="col">Email Address</th>
-              <th scope="col">Phone Number</th>
-              <th scope="col">Active</th>
-              <th scope="col">Verified</th>
+              <th scope="col">Category</th>
+              <th scope="col">Price</th>
+              <th scope="col">Stock</th>
+              <th scope="col">Available</th>
+              <th scope="col">Featured</th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            {% for user in users %}
+            {% for product in products %}
             <tr>
-              <th scope="row">{{ user.id }}</th>
-              <td>{{ user.full_name | capfirst}}</td>
-              <td>{{ user.username }}</td>
-              <td>{{ user.email }}</td>
-              <td>{{ user.phone_number }}</td>
+              <th scope="row">{{ product.id }}</th>
+              <td><a href="{% url 'edit_product' product.id %}">{{ product.name }}</a></td>
+              <td>{{ product.category }}</td>
+              <td>₹{{ product.price }}</td>
+              <td>{{ product.stock }}</td>
               <td>
-                {% if user.is_active %}
+                {% if product.is_available %}
                 <i class="fas fa-check-circle" style="color: #28a745"></i>
                 {% else %}
                 <i class="fas fa-times-circle" style="color: #c21010"></i>
                 {% endif %}
               </td>
               <td>
-                {% if user.is_verified %}
+                {% if product.is_featured %}
                 <i class="fas fa-check-circle" style="color: #28a745"></i>
                 {% else %}
                 <i class="fas fa-times-circle" style="color: #c21010"></i>
                 {% endif %}
               </td>
-              <td>
-                {% if user.is_active %}
-                <a href="{% url 'ban_user' user.id %}" class="btn btn-danger btn-sm">Ban User</a>
-                {% else %}
-                <a href="{% url 'unban_user' user.id %}" class="btn btn-info btn-sm">Remove Ban</a>
-                {% endif %}
-              </td>
+              <td><a href="{% url 'delete_product' product.id %}" class="btn btn-sm btn-danger">Delete</a></td>
             </tr>
             {% endfor %}
           </tbody>

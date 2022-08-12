@@ -1,0 +1,60 @@
+{% extends 'base.html' %} {% block content %}
+<section class="section-content padding-y bg">
+  <div class="container">
+    <div class="row d-flex justify-content-center">
+      <div class="col-8">
+        <h1 class="text-center h2 mb-4">Edit Product</h1>
+        <form action="{% url 'edit_product' product.id %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="id_name">Product Name</label>
+              {{ form.name }}
+            </div>
+            <div class="form-group col-md-6">
+              <label for="product_slug">Product Slug</label>
+              {{ form.slug }}
+              <small id="product_slug" class="form-text text-muted">Format :- name: ATX Jeans, slug: atx-jeans</small>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="product_price">Product Price</label>
+              {{ form.price }}
+            </div>
+            <div class="form-group col-md-6">
+              <label for="product_image">Product Image</label>
+              {{ form.images }}
+            </div>
+            <div class="form-group col-md-6">
+              <label for="product_stock">Product Stock</label>
+              {{ form.stock }}
+            </div>
+            <div class="form-group col-md-6">
+              <label for="product_category">Category</label>
+              {{ form.category }}
+            </div>
+            <div class="form-group col-md-6">
+              <label for="id_is_available">Available</label>
+              {{ form.is_available }}
+            </div>
+            <div class="form-group col-md-6">
+              <label for="id_is_featured">Featured</label>
+              {{ form.is_featured }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="product_description">Product Description</label>
+            {{ form.description }}
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

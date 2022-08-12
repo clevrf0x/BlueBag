@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 
 from accounts.models import Accounts
+from manager.forms import ProductForm
 from store.models import Product
 from orders.models import Order
 from categories.models import Category
@@ -32,7 +33,68 @@ def manager_dashboard(request):
   else:
     return redirect('home')
   
+
+
+# Product Management
+@never_cache
+@login_required(login_url='manager_login')
+def manage_product(request):
+  products = Product.objects.all().order_by('id')
   
+  context = {
+    'products': products
+  }
+  return render(request, 'manager/product_management.html', context)
+
+
+# Delete Product
+@never_cache
+@login_required(login_url='manager_login')
+def delete_product(request, product_id):
+  product = Product.objects.get(id=product_id)
+  product.delete()
+  return redirect('manage_product')
+
+
+# Edit Product
+@never_cache
+@login_required(login_url='manager_login')
+def add_product(request):
+  if request.method == 'POST':
+    form = ProductForm(request.POST, request.FILES)
+    if form.is_valid():
+        form.save()
+        return redirect('manage_product')
+  else:
+    form = ProductForm()
+    context = {
+      'form': form
+    }
+    return render(request, 'manager/add_product.html', context)
+
+# Edit Product
+@never_cache
+@login_required(login_url='manager_login')
+def edit_product(request, product_id):
+  product = Product.objects.get(id=product_id)
+  form = ProductForm(instance=product)
+  
+  if request.method == 'POST':
+    try:
+      form = ProductForm(request.POST, request.FILES, instance=product)
+      if form.is_valid():
+        form.save()
+        
+        return redirect('manage_product')
+    
+    except Exception as e:
+      raise e
+
+  context = {
+    'product': product,
+    'form': form
+  }
+  return render(request, 'manager/edit_product.html', context)
 
 # Manage Order
 @never_cache
