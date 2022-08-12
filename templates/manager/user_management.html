@@ -1,0 +1,75 @@
+{% extends 'base.html' %} {% block content %}
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-conten padding-y bg">
+  <div class="container">
+    <h1 class="text-center h2 mb-4">Manage Users</h1>
+    <div class="row">
+      <aside class="col-md-3">
+        <!--   SIDEBAR   -->
+        <ul class="list-group">
+          <a class="list-group-item" href="{% url 'manager_dashboard' %}"> Dashboard </a>
+          <a class="list-group-item active" href="{% url 'manage_user' %}"> User Management </a>
+          <a class="list-group-item" href=""> Product Management </a>
+          <a class="list-group-item" href="{% url 'manage_category' %}"> Category Management </a>
+          <a class="list-group-item" href=""> Order Management </a>
+        </ul>
+        <br />
+        <a class="btn btn-light btn-block" href="{% url 'manager_logout' %}"> <i class="fa fa-power-off"></i> <span class="text">Log out</span> </a>
+        <!--   SIDEBAR .//END   -->
+      </aside>
+      <main class="col-md-9">
+        <table class="table table-borderless">
+          <thead>
+            <tr class="mb-4">
+              <th scope="col">ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Username</th>
+              <th scope="col">Email Address</th>
+              <th scope="col">Phone Number</th>
+              <th scope="col">Active</th>
+              <th scope="col">Verified</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in users %}
+            <tr>
+              <th scope="row">{{ user.id }}</th>
+              <td>{{ user.full_name | capfirst}}</td>
+              <td>{{ user.username }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.phone_number }}</td>
+              <td>
+                {% if user.is_active %}
+                <i class="fas fa-check-circle" style="color: #28a745"></i>
+                {% else %}
+                <i class="fas fa-times-circle" style="color: #c21010"></i>
+                {% endif %}
+              </td>
+              <td>
+                {% if user.is_verified %}
+                <i class="fas fa-check-circle" style="color: #28a745"></i>
+                {% else %}
+                <i class="fas fa-times-circle" style="color: #c21010"></i>
+                {% endif %}
+              </td>
+              <td>
+                {% if user.is_active %}
+                <a href="{% url 'ban_user' user.id %}" class="btn btn-danger btn-sm">Ban User</a>
+                {% else %}
+                <a href="{% url 'unban_user' user.id %}" class="btn btn-info btn-sm">Remove Ban</a>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <!-- order-group.// -->
+      </main>
+    </div>
+    <!-- row.// -->
+  </div>
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+{% endblock content %}

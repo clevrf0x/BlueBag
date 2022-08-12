@@ -1,0 +1,68 @@
+{% extends 'base.html' %} {% block content %}
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-conten padding-y bg">
+  <div class="container">
+    <h1 class="text-center h2 mb-4">Admin Dashboard</h1>
+    <div class="row">
+      <aside class="col-md-3">
+        <!--   SIDEBAR   -->
+        <ul class="list-group">
+          <a class="list-group-item active" href="{% url 'manager_dashboard' %}"> Dashboard </a>
+          <a class="list-group-item" href="{% url 'manage_user' %}"> User Management </a>
+          <a class="list-group-item" href=""> Product Management </a>
+          <a class="list-group-item" href="{% url 'manage_category' %}"> Category Management </a>
+          <a class="list-group-item" href=""> Order Management </a>
+        </ul>
+        <br />
+        <a class="btn btn-light btn-block" href="{% url 'manager_logout' %}"> <i class="fa fa-power-off"></i> <span class="text">Log out</span> </a>
+        <!--   SIDEBAR .//END   -->
+      </aside>
+      <main class="col-md-9">
+        <div class="row">
+          <div class="col-sm-6 text-center mb-2">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Total Users</h5>
+                <p class="card-title h4 mb-3">{{ user_count }}</p>
+                <a href="{% url 'manage_user' %}" class="btn btn-outline-primary">View Users</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 text-center mb-2">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Total Products</h5>
+                <p class="card-title h4 mb-3">{{ product_count }}</p>
+                <a href="" class="btn btn-outline-primary">View Products</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 text-center mb-2">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Total Orders</h5>
+                <p class="card-title h4 mb-3">{{ order_count }}</p>
+                <a href="" class="btn btn-outline-primary">View Orders</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 text-center mb-2">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Product Category</h5>
+                <p class="card-title h4 mb-3">{{ category_count }}</p>
+                <a href="{% url 'manage_category' %}" class="btn btn-outline-primary">View Categories</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- order-group.// -->
+      </main>
+    </div>
+    <!-- row.// -->
+  </div>
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+{% endblock content %}

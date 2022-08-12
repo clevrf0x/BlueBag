@@ -41,9 +41,9 @@
               </td>
               <td>
                 {% if order.status == 'Accepted' %}
-                <a href="{% url 'cancel_order' order.order_number %}" class="btn btn-danger">Cancel</a>
+                <a href="{% url 'cancel_order' order.order_number %}" class="btn btn-danger btn-sm">Cancel</a>
                 {% elif order.status == 'Pending' %}
-                <a href="{% url 'cancel_order' order.order_number %}" class="btn btn-danger">Cancel</a>
+                <a href="{% url 'cancel_order' order.order_number %}" class="btn btn-danger btn-sm">Cancel</a>
                 {% endif %}
               </td>
             </tr>

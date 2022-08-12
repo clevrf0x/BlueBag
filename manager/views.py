@@ -4,15 +4,73 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 
+from accounts.models import Accounts
+from store.models import Product
+from orders.models import Order
+from categories.models import Category
+
 # Create your views here.
 
 @never_cache
 @login_required(login_url='manager_login')
 def manager_dashboard(request):
   if request.user.is_superadmin:
-    return render(request, 'manager_dashboard.html')
+    
+    user_count = Accounts.objects.filter(is_superadmin=False).count()
+    product_count = Product.objects.all().count()
+    order_count = Order.objects.filter(is_ordered=True).count()
+    category_count = Category.objects.all().count()
+    
+    context = {
+      'user_count': user_count,
+      'product_count': product_count,
+      'order_count': order_count,
+      'category_count': category_count
+    }
+    
+    return render(request, 'manager/manager_dashboard.html', context)
   else:
     return redirect('home')
+  
+  
+# Manage Category
+@never_cache
+@login_required(login_url='manager_login')
+def manage_category(request):
+  
+  return render(request, 'manager/category_management.html')
+
+
+# User Management
+@never_cache
+@login_required(login_url='manager_login')
+def manage_user(request):
+  users = Accounts.objects.filter(is_superadmin=False) .order_by('id')
+  context = {
+    'users': users,
+  }
+  return render(request, 'manager/user_management.html', context)
+
+# Ban User
+@never_cache
+@login_required(login_url='manager_login')
+def ban_user(request, user_id):
+  user = Accounts.objects.get(id=user_id)
+  user.is_active = False
+  user.save()
+
+  return redirect('manage_user')
+
+# UnBan User
+@never_cache
+@login_required(login_url='manager_login')
+def unban_user(request, user_id):
+  user = Accounts.objects.get(id=user_id)
+  user.is_active = True
+  user.save()
+
+  return redirect('manage_user')
+
 
 def redirect_to_login(request):
   return redirect('manager_login')
@@ -42,7 +100,7 @@ def manager_login(request):
 
       else:
         messages.error(request, 'Email or Password is incorrect')
-  return render(request, 'manager_signin.html')
+  return render(request, 'manager/manager_signin.html')
 
 @never_cache
 def manager_logout(request):
