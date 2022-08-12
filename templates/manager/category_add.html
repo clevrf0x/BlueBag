@@ -1,0 +1,32 @@
+{% extends 'base.html' %} {% block content %}
+<section class="section-content padding-y bg">
+  <div class="container">
+    <div class="row d-flex justify-content-center">
+      <div class="col-6">
+        <h1 class="text-center h2 mb-4">Add Category</h1>
+        <form action="{% url 'add_category' %}" method="POST">
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="category_name">Category Name</label>
+              <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Enter a category name" required />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="category_slug">Category Slug</label>
+              <input type="text" class="form-control" id="category_slug" name="category_slug" aria-describedby="category_slug" placeholder="Enter a category slug" required />
+              <small id="category_slug" class="form-text text-muted">Format :- name: T Shirt, slug: t-shirt</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="category_description">Category Description</label>
+            <textarea class="form-control" id="category_description" name="category_description" placeholder="Enter category description" row="100"></textarea>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

@@ -37,9 +37,76 @@ def manager_dashboard(request):
 @never_cache
 @login_required(login_url='manager_login')
 def manage_category(request):
+  categories = Category.objects.all().order_by('id')
   
-  return render(request, 'manager/category_management.html')
+  context = {
+    'categories': categories
+  }
+  
+  return render(request, 'manager/category_management.html', context)
 
+
+# Add category
+@never_cache
+@login_required(login_url='manager_login')
+def add_category(request):
+  if request.method == 'POST':
+    try:
+      category_name = request.POST['category_name']
+      category_slug = request.POST['category_slug']
+      category_description = request.POST['category_description']
+      
+      category = Category(
+        name = category_name,
+        slug = category_slug,
+        description = category_description
+      )
+      
+      category.save()
+      return redirect('manage_category')
+    
+    except Exception as e:
+      raise e
+  
+  return render(request, 'manager/category_add.html')
+
+
+# Update Category
+@never_cache
+@login_required(login_url='manager_login')
+def update_category(request, category_id):
+  try:
+    category = Category.objects.get(id=category_id)
+    
+    if request.method == 'POST':
+      category_name = request.POST['category_name']
+      category_slug = request.POST['category_slug']
+      category_description = request.POST['category_description']
+      
+      category.name = category_name
+      category.slug = category_slug
+      category.description = category_description
+      category.save()
+      
+      return redirect('manage_category')
+    
+    context = {
+      'category': category
+    }
+    return render(request, 'manager/category_update.html', context)
+    
+  except Exception as e:
+    raise e
+
+
+# Delete Category
+@never_cache
+@login_required(login_url='manager_login')
+def delete_category(request, category_id):
+  category = Category.objects.get(id=category_id)
+  category.delete()
+  
+  return redirect('manage_category')
 
 # User Management
 @never_cache

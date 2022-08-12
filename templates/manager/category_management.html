@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <!-- ========================= SECTION CONTENT ========================= -->
-<section class="section-conten padding-y bg">
+<section class="section-content padding-y bg">
   <div class="container">
     <h1 class="text-center h2 mb-4">Manage Categories</h1>
     <div class="row">
@@ -21,30 +21,24 @@
         <table class="table table-borderless">
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
+              <th scope="col">ID</th>
+              <th scope="col">Category Name</th>
+              <th scope="col">Category Slug</th>
+              <th scope="col">Update</th>
+              <th scope="col">Delete</th>
+              <th scope="col"><a href="{% url 'add_category' %}" class="btn btn-success">Add</a></th>
             </tr>
           </thead>
           <tbody>
+            {% for category in categories %}
             <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
+              <th scope="row">{{ category.id }}</th>
+              <td>{{ category.name }}</td>
+              <td>{{ category.slug }}</td>
+              <td><a href="{% url 'update_category' category.id %}" class="btn btn-sm btn-info">Update</a></td>
+              <td><a href="{% url 'delete_category' category.id %}" class="btn btn-sm btn-danger">Delete</a></td>
             </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td colspan="2">Larry the Bird</td>
-              <td>@twitter</td>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
         <!-- order-group.// -->
