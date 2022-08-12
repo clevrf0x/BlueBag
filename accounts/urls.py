@@ -13,4 +13,6 @@ urlpatterns = [
   path('my_orders/', my_order, name='my_orders'),
   path('cancel_order/<int:order_number>/', cancel_order, name='cancel_order'),
   path('view_order/<int:order_number>/', view_order, name='view_order'),
+  
+  path('change_password/', change_password, name='change_password')
 ]

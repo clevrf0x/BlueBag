@@ -56,7 +56,7 @@ def delete_product(request, product_id):
   return redirect('manage_product')
 
 
-# Edit Product
+# Add Product
 @never_cache
 @login_required(login_url='manager_login')
 def add_product(request):

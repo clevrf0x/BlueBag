@@ -3,6 +3,7 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
+from django.contrib.auth.hashers import check_password, make_password
 import requests
 
 from orders.models import Order, OrderProduct, Payment
@@ -94,6 +95,31 @@ def view_order(request, order_number):
     
   except Exception as e:
     raise e
+
+@never_cache
+@login_required(login_url='signin')
+def change_password(request):
+  if request.method == 'POST':
+    current_user = request.user
+    current_password = request.POST['current_password']
+    password = request.POST['password']
+    confirm_password = request.POST['confirm_password']
+    
+    if password == confirm_password:
+      if check_password(current_password, current_user.password):
+        if check_password(password, current_user.password):
+          messages.warning(request, 'Current password and new password is same')
+        else:
+          hashed_password = make_password(password)
+          current_user.password = hashed_password
+          current_user.save()
+          messages.success(request, 'Password changed successfully')
+      else:
+        messages.error(request, 'Wrong password')
+    else:
+      messages.error(request, 'Passwords does not match')
+  
+  return render(request, 'accounts/change_password.html')
 
 ### Sign in Function
 @never_cache
