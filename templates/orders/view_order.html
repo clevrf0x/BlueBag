@@ -1,5 +1,16 @@
-{% extends 'base.html' %} {% block content %}
-<div class="container" style="margin: 0 auto; width: 50%; padding: 50px; background: #f1f1f1; margin-top: 50px; margin-bottom: 50px">
+{% extends 'base.html' %} {% block content %} {% if request.user.is_superadmin %}
+<div class="container d-flex justify-content-center" style="margin: 0 auto; width: 70%; padding: 50px;">
+  {% if order.status == 'Pending' %}
+  <a href="{% url 'accept_order' order.order_number %}" class="btn btn-info mr-2">Accept</a>
+  {% elif order.status == 'Accepted' %}
+  <a href="{% url 'complete_order' order.order_number %}" class="btn btn-success mr-2">Complete</a>
+  {% endif %} {% if order.status == 'Pending' or order.status == 'Accepted' %}
+  <a href="{% url 'cancel_order' order.order_number %}" class="btn btn-danger ml-2">Cancel</a>
+  {% endif %}
+</div>
+{% endif %}
+
+<div class="container" style="margin: 0 auto; width: 50%; padding: 50px; background: #f1f1f1;margin-bottom: 50px">
   <div class="row invoice row-printable">
     <div class="col-md-12">
       <!-- col-lg-12 start here -->
