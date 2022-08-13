@@ -1,0 +1,3 @@
+{% autoescape off %} Hi {{ order.user.username }}, Your Order has been succefully placed,Please <a>click here</a> to view your order. 
+http://{{ domain }}{% url 'view_order' order.order_number %} 
+{%endautoescape %}

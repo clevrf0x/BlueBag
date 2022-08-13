@@ -1,5 +1,4 @@
 import datetime
-from http.client import HTTPResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 
@@ -12,6 +11,11 @@ from .forms import OrderForm, Order
 import razorpay
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
+
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.contrib import messages
+from django.core.mail import EmailMessage
 
 
 # Create your views here.
@@ -104,6 +108,19 @@ def payment_success(request):
     tax = total / 100
     grand_total = total + tax
     
+    #Order Confirmmation Mail
+    
+    current_site = get_current_site(request)
+    mail_subject = "Order Confirmation"
+    message = render_to_string('orders/order_confirmation.html', {
+      'order': order,
+      'domain': current_site
+    })
+    to_mail = order.user.email
+    send_email = EmailMessage(mail_subject, message, to=[to_mail])
+    send_email.send()
+    messages.success(request, 'Order confirmation mail has been send to your registered email address')
+
     context = {
       'order': order,
       'ordered_products': ordered_products,
