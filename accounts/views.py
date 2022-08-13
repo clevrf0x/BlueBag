@@ -7,6 +7,8 @@ from django.views.decorators.cache import never_cache
 from django.contrib.auth.hashers import check_password, make_password
 import requests
 
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+
 from django.core.exceptions import ObjectDoesNotExist
 
 from orders.models import Order, OrderProduct, Payment
@@ -50,8 +52,13 @@ def user_dashboard(request):
 def my_order(request):
   current_user = request.user
   orders = Order.objects.filter(user=current_user, is_ordered=True).order_by('-created_at')
+  
+  paginator = Paginator(orders, 6)
+  page = request.GET.get('page')
+  paged_orders = paginator.get_page(page)
+  
   context = {
-    'orders': orders,
+    'orders': paged_orders,
   }
   return render(request, 'accounts/my_orders.html', context)
 

@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 
 from django.contrib.auth.hashers import make_password, check_password
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from accounts.models import Accounts
 from manager.forms import ProductForm
@@ -74,8 +75,12 @@ def admin_change_password(request):
 def admin_order(request):
   current_user = request.user
   orders = Order.objects.filter(user=current_user, is_ordered=True).order_by('-created_at')
+  
+  paginator = Paginator(orders, 6)
+  page = request.GET.get('page')
+  paged_orders = paginator.get_page(page)
   context = {
-    'orders': orders,
+    'orders': paged_orders,
   }
   return render(request, 'manager/admin_orders.html', context)
   
@@ -87,8 +92,12 @@ def admin_order(request):
 def manage_product(request):
   products = Product.objects.all().order_by('id')
   
+  paginator = Paginator(products, 6)
+  page = request.GET.get('page')
+  paged_products = paginator.get_page(page)
+  
   context = {
-    'products': products
+    'products': paged_products
   }
   return render(request, 'manager/product_management.html', context)
 
@@ -147,9 +156,11 @@ def edit_product(request, product_id):
 @login_required(login_url='manager_login')
 def manage_order(request):
   orders = Order.objects.filter(is_ordered=True).order_by('-order_number')
-  
+  paginator = Paginator(orders, 6)
+  page = request.GET.get('page')
+  paged_orders = paginator.get_page(page)
   context = {
-    'orders': orders
+    'orders': paged_orders
   }
   return render(request, 'manager/order_management.html', context)
 
@@ -192,8 +203,12 @@ def complete_order(request, order_number):
 def manage_category(request):
   categories = Category.objects.all().order_by('id')
   
+  paginator = Paginator(categories, 6)
+  page = request.GET.get('page')
+  paged_categories = paginator.get_page(page)
+  
   context = {
-    'categories': categories
+    'categories': paged_categories
   }
   
   return render(request, 'manager/category_management.html', context)
@@ -266,8 +281,13 @@ def delete_category(request, category_id):
 @login_required(login_url='manager_login')
 def manage_user(request):
   users = Accounts.objects.filter(is_superadmin=False) .order_by('id')
+  
+  paginator = Paginator(users, 6)
+  page = request.GET.get('page')
+  paged_users = paginator.get_page(page)
+  
   context = {
-    'users': users,
+    'users': paged_users,
   }
   return render(request, 'manager/user_management.html', context)
 
