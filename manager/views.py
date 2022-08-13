@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 
+from django.db.models import Q
+
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
@@ -74,7 +76,13 @@ def admin_change_password(request):
 @login_required(login_url='manager_login')
 def admin_order(request):
   current_user = request.user
-  orders = Order.objects.filter(user=current_user, is_ordered=True).order_by('-created_at')
+  
+  if request.method == 'POST':
+    keyword = request.POST['keyword']
+    orders = Order.objects.filter(Q(user=current_user), Q(is_ordered=True), Q(order_number__startswith=keyword) | Q(user__email__startswith=keyword) | Q(firstname__startswith=keyword) | Q(lastname__startswith=keyword) | Q(phone_number__startswith=keyword)).order_by('-created_at')
+    
+  else:
+    orders = Order.objects.filter(user=current_user, is_ordered=True).order_by('-created_at')
   
   paginator = Paginator(orders, 6)
   page = request.GET.get('page')
@@ -90,7 +98,12 @@ def admin_order(request):
 @never_cache
 @login_required(login_url='manager_login')
 def manage_product(request):
-  products = Product.objects.all().order_by('id')
+  if request.method == 'POST':
+    keyword = request.POST['keyword']
+    products = Product.objects.filter(Q(name__startswith=keyword) | Q(slug__startswith=keyword) | Q(category__name__startswith=keyword)).order_by('id')
+  
+  else:
+    products = Product.objects.all().order_by('id')
   
   paginator = Paginator(products, 6)
   page = request.GET.get('page')
@@ -155,7 +168,13 @@ def edit_product(request, product_id):
 @never_cache
 @login_required(login_url='manager_login')
 def manage_order(request):
-  orders = Order.objects.filter(is_ordered=True).order_by('-order_number')
+  if request.method == 'POST':
+    keyword = request.POST['keyword']
+    orders = Order.objects.filter(Q(is_ordered=True), Q(order_number__startswith=keyword) | Q(user__email__startswith=keyword) | Q(firstname__startswith=keyword) | Q(lastname__startswith=keyword)).order_by('-order_number')
+  
+  else:
+    orders = Order.objects.filter(is_ordered=True).order_by('-order_number')
+    
   paginator = Paginator(orders, 6)
   page = request.GET.get('page')
   paged_orders = paginator.get_page(page)
@@ -201,7 +220,12 @@ def complete_order(request, order_number):
 @never_cache
 @login_required(login_url='manager_login')
 def manage_category(request):
-  categories = Category.objects.all().order_by('id')
+  if request.method == 'POST':
+    keyword = request.POST['keyword']
+    categories = Category.objects.filter(Q(name__startswith=keyword) | Q(slug__startswith=keyword)).order_by('id')
+    
+  else:
+    categories = Category.objects.all().order_by('id')
   
   paginator = Paginator(categories, 6)
   page = request.GET.get('page')
@@ -280,7 +304,12 @@ def delete_category(request, category_id):
 @never_cache
 @login_required(login_url='manager_login')
 def manage_user(request):
-  users = Accounts.objects.filter(is_superadmin=False) .order_by('id')
+  if request.method == 'POST':
+    keyword = request.POST['keyword']
+    users = Accounts.objects.filter(Q(first_name__startswith=keyword) | Q(last_name__startswith=keyword) | Q(username__startswith=keyword) | Q(email__startswith=keyword) | Q(phone_number__startswith=keyword)).order_by('id')
+  
+  else:
+    users = Accounts.objects.filter(is_superadmin=False) .order_by('id')
   
   paginator = Paginator(users, 6)
   page = request.GET.get('page')

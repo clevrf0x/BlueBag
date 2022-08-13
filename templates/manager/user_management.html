@@ -1,8 +1,22 @@
 {% extends 'base.html' %} {% block content %}
 <!-- ========================= SECTION CONTENT ========================= -->
-<section class="section-conten padding-y bg">
+<section class="section-conten mt-3 bg">
   <div class="container">
-    <h1 class="text-center h2 mb-4">Manage Users</h1>
+    {% comment %} <h1 class="text-center h2 mb-4">Manage Users</h1> {% endcomment %}
+    <div class="d-flex mb-3 justify-content-end">
+      <form action="{% url 'manage_user' %}" class="search" method="POST">
+        {% csrf_token %} 
+        <div class="input-group w-100">
+          <input type="text" class="form-control" style="width: 60%" placeholder="Search" name="keyword" />
+
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
     <div class="row">
       <aside class="col-md-3">
         <!--   SIDEBAR   -->
