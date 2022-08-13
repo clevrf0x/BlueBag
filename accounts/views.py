@@ -7,6 +7,8 @@ from django.views.decorators.cache import never_cache
 from django.contrib.auth.hashers import check_password, make_password
 import requests
 
+from django.db.models import Q
+
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -50,9 +52,15 @@ def user_dashboard(request):
   
 @login_required(login_url='signin')
 def my_order(request):
-  current_user = request.user
-  orders = Order.objects.filter(user=current_user, is_ordered=True).order_by('-created_at')
-  
+  if request.method == 'POST':
+    current_user = request.user
+    keyword = request.POST['keyword']
+    orders = Order.objects.filter(Q(user=current_user), Q(order_number__startswith=keyword) | Q(firstname__startswith=keyword) | Q(lastname__startswith=keyword) | Q(phone_number__startswith=keyword)).order_by('-id')
+    
+  else:
+    current_user = request.user
+    orders = Order.objects.filter(user=current_user, is_ordered=True).order_by('-created_at')
+    
   paginator = Paginator(orders, 6)
   page = request.GET.get('page')
   paged_orders = paginator.get_page(page)
