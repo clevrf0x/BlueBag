@@ -12,24 +12,24 @@
               <div class="form-row">
                 <div class="col form-group">
                   <label for="firstname">First Name</label>
-                  <input type="text" name="firstname" id="firstname" class="form-control" required />
+                  <input type="text" name="firstname" id="firstname" class="form-control" value="{{ user.first_name }}" required />
                 </div>
 
                 <div class="col form-group">
                   <label for="lastname">Last Name</label>
-                  <input type="text" name="lastname" id="lastname" class="form-control" required />
+                  <input type="text" name="lastname" id="lastname" class="form-control" value={{ user.last_name }} required />
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="col form-group">
                   <label for="email">Email Address</label>
-                  <input type="email" name="email" id="email" class="form-control" required />
+                  <input type="email" name="email" id="email" class="form-control" value="{{ user.email }}" required />
                 </div>
 
                 <div class="col form-group">
                   <label for="phone_number">Phone Number</label>
-                  <input type="text" name="phone_number" id="phone_number" class="form-control" required />
+                  <input type="text" name="phone_number" id="phone_number" class="form-control" value={{ user.phone_number }} required />
                 </div>
               </div>
 

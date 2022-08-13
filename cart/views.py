@@ -219,6 +219,7 @@ def checkout(request, total=0, quantity=0, cart_items=None):
   grand_total = 0
   try:
     if request.user.is_authenticated:
+      user = request.user
       cart_items = CartItem.objects.filter(user=request.user, is_active=True).order_by('product')
     
     else:
@@ -236,6 +237,7 @@ def checkout(request, total=0, quantity=0, cart_items=None):
     pass
   
   context = {
+    'user': user,
     'total': total,
     'quantity': quantity,
     'cart_items': cart_items,
