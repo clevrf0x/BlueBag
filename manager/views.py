@@ -24,11 +24,17 @@ def manager_dashboard(request):
     order_count = Order.objects.filter(is_ordered=True).count()
     category_count = Category.objects.all().count()
     
+    total_sales = 0
+    orders = Order.objects.filter(is_ordered=True)
+    for order in orders:
+      total_sales += order.order_total
+    
     context = {
       'user_count': user_count,
       'product_count': product_count,
       'order_count': order_count,
-      'category_count': category_count
+      'category_count': category_count,
+      'total_sales': int(total_sales)
     }
     
     return render(request, 'manager/manager_dashboard.html', context)
