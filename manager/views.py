@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 
+from django.contrib.auth.hashers import make_password, check_password
+
 from accounts.models import Accounts
 from manager.forms import ProductForm
 from store.models import Product
@@ -32,6 +34,44 @@ def manager_dashboard(request):
     return render(request, 'manager/manager_dashboard.html', context)
   else:
     return redirect('home')
+  
+
+# change password
+
+@never_cache
+@login_required(login_url='manager_login')
+def admin_change_password(request):
+  if request.method == 'POST':
+    current_user = request.user
+    current_password = request.POST['current_password']
+    password = request.POST['password']
+    confirm_password = request.POST['confirm_password']
+    
+    if password == confirm_password:
+      if check_password(current_password, current_user.password):
+        if check_password(password, current_user.password):
+          messages.warning(request, 'Current password and new password is same')
+        else:
+          hashed_password = make_password(password)
+          current_user.password = hashed_password
+          current_user.save()
+          messages.success(request, 'Password changed successfully')
+      else:
+        messages.error(request, 'Wrong password')
+    else:
+      messages.error(request, 'Passwords does not match')
+  
+  return render(request, 'manager/admin_change_password.html')
+
+# My orders
+@login_required(login_url='manager_login')
+def admin_order(request):
+  current_user = request.user
+  orders = Order.objects.filter(user=current_user, is_ordered=True).order_by('-created_at')
+  context = {
+    'orders': orders,
+  }
+  return render(request, 'manager/admin_orders.html', context)
   
 
 
