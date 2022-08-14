@@ -12,6 +12,8 @@ urlpatterns = [
   path('manage_product/', manage_product, name='manage_product'),
   path('manage_variation/', manage_variation, name='manage_variation'),
   
+  path('delete_variation/<int:variation_id>/', delete_variation, name='delete_variation'),
+  
   path('change_password/', admin_change_password, name='admin_change_password'),
   path('admin_orders/', admin_order, name='admin_orders'),
   

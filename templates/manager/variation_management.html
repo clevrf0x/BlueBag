@@ -42,6 +42,7 @@
               <th scope="col">Variation Category</th>
               <th scope="col">Variation Value</th>
               <th scope="col">Active</th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -58,6 +59,7 @@
                 <i class="fas fa-times-circle" style="color: #c21010"></i>
                 {% endif %}
               </td>
+              <td><a href="{% url 'delete_variation' variation.id %}" class="btn btn-sm btn-danger">Delete</a></td>
             </tr>
             {% endfor %}
           </tbody>

@@ -67,6 +67,15 @@ def manage_variation(request):
   return render(request, 'manager/variation_management.html', context)
 
 
+
+@never_cache
+@login_required(login_url='manager_login')
+def delete_variation(request, variation_id):
+  variation = Variation.objects.get(id=variation_id)
+  variation.delete()
+  return redirect('manage_variation')
+
+
 # change password
 
 @never_cache
