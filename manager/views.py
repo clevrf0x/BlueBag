@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout, login, authenticate
 from django.contrib import messages
@@ -11,7 +12,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from accounts.models import Accounts
 from manager.forms import ProductForm
-from store.models import Product
+from store.models import Product, Variation
 from orders.models import Order
 from categories.models import Category
 
@@ -44,6 +45,27 @@ def manager_dashboard(request):
   else:
     return redirect('home')
   
+
+# Manage Variation
+@never_cache
+@login_required(login_url='manager_login')
+def manage_variation(request):
+  if request.method == 'POST':
+    keyword = request.POST['keyword']
+    variations = Variation.objects.filter(Q(product__name__startswith=keyword) | Q(variation_category__startswith=keyword) | Q(variation_value__startswith=keyword)).order_by('id')
+  
+  else:
+    variations = Variation.objects.all().order_by('id')
+  
+  paginator = Paginator(variations, 10)
+  page = request.GET.get('page')
+  paged_variations = paginator.get_page(page)
+  
+  context = {
+    'variations': paged_variations
+  }
+  return render(request, 'manager/variation_management.html', context)
+
 
 # change password
 
@@ -84,7 +106,7 @@ def admin_order(request):
   else:
     orders = Order.objects.filter(user=current_user, is_ordered=True).order_by('-created_at')
   
-  paginator = Paginator(orders, 6)
+  paginator = Paginator(orders, 10)
   page = request.GET.get('page')
   paged_orders = paginator.get_page(page)
   context = {
@@ -105,7 +127,7 @@ def manage_product(request):
   else:
     products = Product.objects.all().order_by('id')
   
-  paginator = Paginator(products, 6)
+  paginator = Paginator(products, 10)
   page = request.GET.get('page')
   paged_products = paginator.get_page(page)
   
@@ -175,7 +197,7 @@ def manage_order(request):
   else:
     orders = Order.objects.filter(is_ordered=True).order_by('-order_number')
     
-  paginator = Paginator(orders, 6)
+  paginator = Paginator(orders, 10)
   page = request.GET.get('page')
   paged_orders = paginator.get_page(page)
   context = {
@@ -227,7 +249,7 @@ def manage_category(request):
   else:
     categories = Category.objects.all().order_by('id')
   
-  paginator = Paginator(categories, 6)
+  paginator = Paginator(categories, 10)
   page = request.GET.get('page')
   paged_categories = paginator.get_page(page)
   
@@ -311,7 +333,7 @@ def manage_user(request):
   else:
     users = Accounts.objects.filter(is_superadmin=False) .order_by('id')
   
-  paginator = Paginator(users, 6)
+  paginator = Paginator(users, 10)
   page = request.GET.get('page')
   paged_users = paginator.get_page(page)
   

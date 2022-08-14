@@ -2,9 +2,8 @@
 <!-- ========================= SECTION CONTENT ========================= -->
 <section class="section-conten mt-3 bg">
   <div class="container">
-    {% comment %} <h1 class="text-center h2 mb-4">Manage Users</h1> {% endcomment %}
     <div class="d-flex mb-3 justify-content-end">
-      <form action="{% url 'manage_user' %}" class="search" method="POST">
+      <form action="{% url 'manage_variation' %}" class="search" method="POST">
         {% csrf_token %} 
         <div class="input-group w-100">
           <input type="text" class="form-control" style="width: 60%" placeholder="Search" name="keyword" />
@@ -22,11 +21,11 @@
         <!--   SIDEBAR   -->
         <ul class="list-group">
           <a class="list-group-item" href="{% url 'manager_dashboard' %}"> Dashboard </a>
-          <a class="list-group-item active" href="{% url 'manage_user' %}"> User Management </a>
+          <a class="list-group-item " href="{% url 'manage_user' %}"> User Management </a>
           <a class="list-group-item" href="{% url 'manage_product' %}"> Product Management </a>
           <a class="list-group-item" href="{% url 'manage_category' %}"> Category Management </a>
           <a class="list-group-item" href="{% url 'manage_order' %}"> Order Management </a>
-          <a class="list-group-item " href="{% url 'manage_variation' %}"> Variation Management </a>
+          <a class="list-group-item active" href="{% url 'manage_variation' %}"> Variation Management </a>
           <a class="list-group-item" href="{% url 'admin_orders' %}"> My Orders </a>
           <a class="list-group-item" href="{% url 'admin_change_password' %}"> Change Password </a>
         </ul>
@@ -39,42 +38,24 @@
           <thead>
             <tr class="mb-4">
               <th scope="col">ID</th>
-              <th scope="col">Name</th>
-              <th scope="col">Username</th>
-              <th scope="col">Email Address</th>
-              <th scope="col">Phone Number</th>
+              <th scope="col">Product Name</th>
+              <th scope="col">Variation Category</th>
+              <th scope="col">Variation Value</th>
               <th scope="col">Active</th>
-              <th scope="col">Verified</th>
-              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            {% for user in users %}
+            {% for variation in variations %}
             <tr>
-              <th scope="row">{{ user.id }}</th>
-              <td>{{ user.full_name | capfirst}}</td>
-              <td>{{ user.username }}</td>
-              <td>{{ user.email }}</td>
-              <td>{{ user.phone_number }}</td>
+              <th scope="row">{{ variation.id }}</th>
+              <td>{{ variation.product | capfirst}}</td>
+              <td>{{ variation.variation_category }}</td>
+              <td>{{ variation.variation_value }}</td>
               <td>
-                {% if user.is_active %}
+                {% if variation.is_active %}
                 <i class="fas fa-check-circle" style="color: #28a745"></i>
                 {% else %}
                 <i class="fas fa-times-circle" style="color: #c21010"></i>
-                {% endif %}
-              </td>
-              <td>
-                {% if user.is_verified %}
-                <i class="fas fa-check-circle" style="color: #28a745"></i>
-                {% else %}
-                <i class="fas fa-times-circle" style="color: #c21010"></i>
-                {% endif %}
-              </td>
-              <td>
-                {% if user.is_active %}
-                <a href="{% url 'ban_user' user.id %}" class="btn btn-danger btn-sm">Ban User</a>
-                {% else %}
-                <a href="{% url 'unban_user' user.id %}" class="btn btn-info btn-sm">Remove Ban</a>
                 {% endif %}
               </td>
             </tr>
@@ -84,18 +65,18 @@
         <!-- order-group.// -->
         <div class="container">
           <nav class="mt-4" aria-label="Page navigation sample">
-            {% if users.has_other_pages %}
+            {% if variations.has_other_pages %}
             <ul class="pagination">
-              {% if users.has_previous %}
-              <li class="page-item"><a class="page-link" href="?page={{ users.previous_page_number }}">Previous</a></li>
+              {% if variations.has_previous %}
+              <li class="page-item"><a class="page-link" href="?page={{ variations.previous_page_number }}">Previous</a></li>
               {% else %}
               <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-              {% endif %} {% for page_number in users.paginator.page_range %} {% if users.number == page_number %}
+              {% endif %} {% for page_number in variations.paginator.page_range %} {% if variations.number == page_number %}
               <li class="page-item active"><a class="page-link" href="#">{{ page_number }}</a></li>
               {% else %}
               <li class="page-item"><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
-              {% endif %} {% endfor %} {% if users.has_next %}
-              <li class="page-item"><a class="page-link" href="?page={{ users.next_page_number }}">Next</a></li>
+              {% endif %} {% endfor %} {% if variations.has_next %}
+              <li class="page-item"><a class="page-link" href="?page={{ variations.next_page_number }}">Next</a></li>
               {% else %}
               <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
               {% endif %}
