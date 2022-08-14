@@ -13,6 +13,9 @@ urlpatterns = [
   path('manage_variation/', manage_variation, name='manage_variation'),
   
   path('delete_variation/<int:variation_id>/', delete_variation, name='delete_variation'),
+  path('update_variation/<int:variation_id>/', update_variation, name='update_variation'),
+  
+  path('add_variation/', add_variation, name='add_variation'),
   
   path('change_password/', admin_change_password, name='admin_change_password'),
   path('admin_orders/', admin_order, name='admin_orders'),

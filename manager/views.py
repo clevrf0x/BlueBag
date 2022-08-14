@@ -11,7 +11,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from accounts.models import Accounts
-from manager.forms import ProductForm
+from manager.forms import ProductForm, VariationForm
 from store.models import Product, Variation
 from orders.models import Order
 from categories.models import Category
@@ -75,6 +75,47 @@ def delete_variation(request, variation_id):
   variation.delete()
   return redirect('manage_variation')
 
+
+# Add Variation
+@never_cache
+@login_required(login_url='manager_login')
+def add_variation(request):
+  
+  if request.method == 'POST':
+    form = VariationForm(request.POST)
+    if form.is_valid():
+      form.save()
+      return redirect('manage_variation')
+  
+  else:
+    form = VariationForm()
+  
+  context = {
+    'form': form
+  }
+  return render(request, 'manager/add_variation.html', context)
+
+
+# Update Variation
+@never_cache
+@login_required(login_url='manager_login')
+def update_variation(request, variation_id):
+  variation = Variation.objects.get(id=variation_id)
+  
+  if request.method == 'POST':
+    form = VariationForm(request.POST ,instance=variation)
+    if form.is_valid():
+      form.save()
+      return redirect('manage_variation')
+  
+  else:
+    form = VariationForm(instance=variation)
+  
+  context = {
+    'variation': variation,
+    'form': form
+  }
+  return render(request, 'manager/update_variation.html', context)
 
 # change password
 

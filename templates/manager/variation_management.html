@@ -15,6 +15,9 @@
           </div>
         </div>
       </form>
+      <div>
+        <a href="{% url 'add_variation' %}" class="btn btn-success ml-4">Add</a>
+      </div>
     </div>
     <div class="row">
       <aside class="col-md-3">
@@ -39,9 +42,10 @@
             <tr class="mb-4">
               <th scope="col">ID</th>
               <th scope="col">Product Name</th>
-              <th scope="col">Variation Category</th>
-              <th scope="col">Variation Value</th>
+              <th scope="col">Category</th>
+              <th scope="col">Value</th>
               <th scope="col">Active</th>
+              <th scope="col"></th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -59,6 +63,7 @@
                 <i class="fas fa-times-circle" style="color: #c21010"></i>
                 {% endif %}
               </td>
+              <td><a href="{% url 'update_variation' variation.id %}" class="btn btn-sm btn-info">Update</a></td>
               <td><a href="{% url 'delete_variation' variation.id %}" class="btn btn-sm btn-danger">Delete</a></td>
             </tr>
             {% endfor %}
