@@ -11,3 +11,7 @@ venv
 # in your Git repository. Update and uncomment the following line accordingly.
 BlueBag/static/
 .env
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
