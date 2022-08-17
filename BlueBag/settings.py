@@ -29,7 +29,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', 'bluebag-env.eba-s34kdbmz.us-west-2.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['bluebag-env.eba-s34kdbmz.us-west-2.elasticbeanstalk.com']
 
 
 # Application definition
