@@ -25,7 +25,7 @@ urlpatterns = [
   path('edit_product/<int:product_id>/', edit_product, name='edit_product'),
   path('delete_product/<int:product_id>/', delete_product, name='delete_product'),
   
-  path('cancel_order/<int:order_number>/', cancel_order, name='cancel_order'),
+  path('admin_cancel_order/<int:order_number>/', cancel_order, name='admin_cancel_order'),
   path('accept_order/<int:order_number>/', accept_order, name='accept_order'),
   path('complete_order/<int:order_number>/', complete_order, name='complete_order'),
   
