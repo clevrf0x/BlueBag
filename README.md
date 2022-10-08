@@ -49,7 +49,7 @@ Before cloning/forking this project, make sure you have the following tools inst
 
 ## Installation
 
-1. Clone the project\
+1. Clone the project
 >`git clone https://github.com/clevrf0x/BlueBag`
 2. Create a .env file in BlueBag directory (create inside the directory where settings.py resides)
 >Format :\
