@@ -10,10 +10,7 @@
 ---
 
 ### Technologies :
-  <img src="https://img.shields.io/badge/-django-c58545?style=for-the-badge&logo=django&logoColor=c58545&labelColor=282828">
-  <img src="https://img.shields.io/badge/-bootstrap-d1a01f?style=for-the-badge&logo=bootstrap&logoColor=d1a01f&labelColor=282828">
-  <img src="https://img.shields.io/badge/-PostgreSQL-98b982?style=for-the-badge&logo=postgresql&logoColor=98b982&labelColor=282828">
-  <img src="https://img.shields.io/badge/-Razorpay-d1a01f?style=for-the-badge&logo=razorpay&logoColor=d1a01f&labelColor=282828">
+  <img src="https://img.shields.io/badge/-django-c58545?style=for-the-badge&logo=django&logoColor=c58545&labelColor=282828"> <img src="https://img.shields.io/badge/-bootstrap-d1a01f?style=for-the-badge&logo=bootstrap&logoColor=d1a01f&labelColor=282828"> <img src="https://img.shields.io/badge/-PostgreSQL-98b982?style=for-the-badge&logo=postgresql&logoColor=98b982&labelColor=282828"> <img src="https://img.shields.io/badge/-Razorpay-d1a01f?style=for-the-badge&logo=razorpay&logoColor=d1a01f&labelColor=282828">
 
 ### Features :
 > User 
