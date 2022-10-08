@@ -4,6 +4,11 @@
 
 > This is a e-commerce website i developed while learning Django webframework.
 
+## Overview
+<img src="https://raw.githubusercontent.com/clevrf0x/BlueBag/main/git_assets/bluebag_overview.gif">
+
+---
+
 ### Technologies :
 - Django
 - Bootstrap
